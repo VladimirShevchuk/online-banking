@@ -56,7 +56,7 @@ $ cp .env.example .env
 
 - Start the application's docker containers:
 ```
-$ ./vendor/bin/sail up
+$ ./vendor/bin/sail up -d
 ```
 
 - Run migrations to initialize the database:
@@ -117,12 +117,14 @@ $ ./vendor/bin/sail artisan l5-swagger:generate
 
 ### DR 4: Use database native "SELECT FOR UPDATE" mechanism for data locking during changes
 **Benefits**: Using database's native functionality, we don't need to implement and support complex logic of locking mechanism, dealing with errors during lock/unlock and concurrent requests.
+
 **Drawbacks**: Because of Eloquent's Active Record approach and implementation details, code dealing with locks is less "clean". It can cause higher memory usage and extra-effort coding around models in some specific use-cases in future.
 
 This approach was selected because of speed of development.
 
 ### DR 5: Use automatic audit log data to show account statement
 **Benefits**: Less error-prone, cause developers don't need to manually create a record about balance change in each place in the code (which they can forget to do). More reliability.
+
 **Drawbacks**: Automatic audit log record has no data about Transfer ID for balance change. If this data needed, then manual or aspect-oriented audit log creation is beneficial.
 
 Since there was no specific requirement, for simplicity this approach was selected.
